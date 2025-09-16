@@ -31,6 +31,7 @@ vim.pack.add({
 
 require("leap").set_default_mappings()
 
+-- setup telescope
 local function get_telescope()
   -- lazy load telescope
   vim.pack.add({
@@ -51,6 +52,7 @@ vim.keymap.set("n", "<leader>F", function()
   get_telescope().live_grep()
 end)
 
+-- syntax highlighting
 require("gruvbox").setup({ contrast = "soft" })
 require("nvim-treesitter.configs").setup({
   ensure_installed = { "rust", "c", "lua", "python", "svelte", "typescript", "css", "typst" },
@@ -95,6 +97,7 @@ vim.api.nvim_create_autocmd({ "BufNewFile", "BufRead" }, {
   end
 })
 
+-- language servers
 require("typst-preview").setup({
   open_cmd = "firefox %s -P typst-preview --class typst-preview",
   dependencies_bin = { ['tinymist'] = 'tinymist' }
@@ -125,8 +128,7 @@ vim.lsp.config("lua_ls", {
 })
 vim.keymap.set("n", "<leader>lf", vim.lsp.buf.format)
 
-vim.keymap.set("n", "<leader>c", "1z=")
-
+-- :term auto insert
 vim.api.nvim_create_autocmd({ "TermOpen", "BufEnter" }, {
   pattern = { "*" },
   callback = function()
@@ -136,13 +138,13 @@ vim.api.nvim_create_autocmd({ "TermOpen", "BufEnter" }, {
   end
 })
 
+-- nice maps
+vim.keymap.set("n", "<leader>`", ":tab term<CR>")
+vim.keymap.set("n", "<leader>c", "1z=")
 vim.keymap.set("n", "<leader>=", vim.cmd.split)
 vim.keymap.set("n", "<leader>\\", vim.cmd.vsplit)
-
 vim.keymap.set("n", "<leader>e", vim.cmd.Explore)
-
 vim.keymap.set("n", "<leader>q", vim.cmd.bdelete)
-
 vim.keymap.set("v", "<", "<gv")
 vim.keymap.set("v", ">", ">gv")
 
