@@ -1,0 +1,20 @@
+{
+    "workspace.library": [
+        "/home/jackblack/.config/nvim",
+        "/home/jackblack/.local/share/nvim/site",
+        "/home/jackblack/.local/share/nvim/site/pack/core/opt/nvim-lspconfig",
+        "/home/jackblack/.local/share/nvim/site/pack/core/opt/mason.nvim",
+        "/home/jackblack/.local/share/nvim/site/pack/core/opt/telescope.nvim",
+        "/home/jackblack/.local/share/nvim/site/pack/core/opt/gruvbox.nvim",
+        "/home/jackblack/.local/share/nvim/site/pack/core/opt/plenary.nvim",
+        "/home/jackblack/.local/share/bob/nightly/share/nvim/runtime",
+        "/home/jackblack/.local/share/bob/nightly/lib/nvim",
+        "${3rd}/luassert/library",
+        "${3rd}/luv/library",
+        "${3rd}/love2d/library"
+    ],
+    "runtime.version": "LuaJIT",
+    "runtime.special": {
+        "love.filesystem.load": "loadfile"
+    }
+}
