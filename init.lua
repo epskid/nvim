@@ -139,7 +139,7 @@ vim.api.nvim_create_autocmd({ "TermOpen", "BufEnter" }, {
 })
 
 -- nice maps
-vim.keymap.set("n", "<leader>`", ":tab term<CR>")
+vim.keymap.set("n", "<leader>`", "<Cmd>tab term<CR>")
 vim.keymap.set("n", "<leader>c", "1z=")
 vim.keymap.set("n", "<leader>=", vim.cmd.split)
 vim.keymap.set("n", "<leader>\\", vim.cmd.vsplit)
