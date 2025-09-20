@@ -145,6 +145,8 @@ vim.keymap.set("n", "<leader>=", vim.cmd.split)
 vim.keymap.set("n", "<leader>\\", vim.cmd.vsplit)
 vim.keymap.set("n", "<leader>e", vim.cmd.Explore)
 vim.keymap.set("n", "<leader>q", vim.cmd.bdelete)
+vim.keymap.set("n", "<leader>m", "<Cmd>make<CR>")
+vim.keymap.set("n", "<leader>tp", vim.cmd.TypstPreview)
 vim.keymap.set("v", "<", "<gv")
 vim.keymap.set("v", ">", ">gv")
 
