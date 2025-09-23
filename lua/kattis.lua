@@ -63,6 +63,10 @@ local function test(opts)
 
   vim.uv.fs_unlink(fileName .. ".class")
 
+  for name in vim.iter(vim.fn.glob(fileName .. "\\$*.class", nil, true)) do
+    vim.uv.fs_unlink(name)
+  end
+
   if string.len(tAns.stderr) ~= 0 then
     print("testa erroreda outa: " .. tAns.stderr)
     return
