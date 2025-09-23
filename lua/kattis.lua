@@ -77,7 +77,8 @@ local function test(opts)
 end
 
 local function submit()
-  local submitURL = "https://open.kattis.com/problems/aboveaverage/submit"
+  local pname = getProblemName()
+  local submitURL = "https://open.kattis.com/problems/" .. pname .. "/submit"
   local name = getCleanFileName()
   local payload = vim.fn.json_encode({
     files = {
@@ -90,7 +91,7 @@ local function submit()
     },
     language = "Java",
     mainclass = name,
-    problem = getProblemName(),
+    problem = pname,
   })
   local chatAmICookiedSixSeven = gimmeMyCookie()
   if not chatAmICookiedSixSeven then
