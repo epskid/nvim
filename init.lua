@@ -6,21 +6,20 @@ vim.opt.signcolumn = "yes"
 vim.opt.number = true
 vim.opt.mouse = ""
 vim.opt.cursorline = true
+vim.g.editorconfig = false
 
 vim.g.mapleader = " "
 
 vim.pack.add({
   -- the essentials
   "https://github.com/tpope/vim-sleuth",
-  "https://github.com/tpope/vim-surround",
   "https://github.com/tpope/vim-vinegar",
   "https://github.com/romainl/vim-cool",
   "https://github.com/ggandor/leap.nvim",
 
-  -- treesitter
-  "https://github.com/ellisonleao/gruvbox.nvim",
+  -- colors
   "https://github.com/nvim-treesitter/nvim-treesitter",
-  "https://github.com/nvim-treesitter/nvim-treesitter-textobjects",
+  "https://github.com/ellisonleao/gruvbox.nvim",
 
   -- language specific funcionality
   "https://github.com/mattn/emmet-vim",
@@ -29,7 +28,9 @@ vim.pack.add({
   "https://github.com/neovim/nvim-lspconfig",
 })
 
-require("leap").set_default_mappings()
+-- leap
+vim.keymap.set({'n', 'x', 'o'}, 's', '<Plug>(leap)')
+vim.keymap.set('n',             'S', '<Plug>(leap-from-window)')
 
 -- setup telescope
 local function get_telescope()
@@ -51,41 +52,17 @@ end)
 vim.keymap.set("n", "<leader>F", function()
   get_telescope().live_grep()
 end)
+vim.keymap.set("n", "<leader>rr", function()
+  get_telescope().lsp_references()
+end)
 
 -- syntax highlighting
-require("gruvbox").setup({ contrast = "soft" })
 require("nvim-treesitter.configs").setup({
-  ensure_installed = { "rust", "c", "lua", "python", "svelte", "typescript", "css", "typst" },
-  sync_install = false,
-  auto_install = false,
-  ignore_install = {},
   highlight = {
-    enable = true,
-  },
-  textobjects = {
-    select = {
-      enable = true,
-      lookahead = false,
-      keymaps = {
-        ["af"] = "@function.outer",
-        ["if"] = "@function.inner",
-        ["ac"] = "@class.outer",
-        ["ic"] = "@class.inner",
-        ["as"] = "@local.scope"
-      },
-      include_surrounding_whitespace = true
-    },
-    swap = {
-      enable = true,
-      swap_next = {
-        ["<leader>a"] = "@parameter.inner",
-      },
-      swap_previous = {
-        ["<leader>A"] = "@parameter.inner",
-      },
-    }
+    enable = true
   }
 })
+require("gruvbox").setup({ contrast = "soft" })
 
 -- setup processing
 vim.api.nvim_create_autocmd({ "BufNewFile", "BufRead" }, {
@@ -103,7 +80,18 @@ require("typst-preview").setup({
   dependencies_bin = { ['tinymist'] = 'tinymist' }
 })
 require("mason").setup()
-vim.lsp.enable({ "rust_analyzer", "clangd", "pyright", "lua_ls", "svelte", "jdtls", "tinymist" })
+vim.lsp.enable({
+  "rust_analyzer",
+  "clangd",
+  "pyright",
+  "lua_ls",
+  "svelte",
+  "jdtls",
+  "tinymist",
+  "hls",
+  "elixirls",
+  "zls"
+})
 vim.api.nvim_create_autocmd("LspAttach", {
   callback = function(args)
     vim.lsp.completion.enable(true, args.data.client_id, args.buf)
@@ -127,6 +115,11 @@ vim.lsp.config("lua_ls", {
   }
 })
 vim.keymap.set("n", "<leader>lf", vim.lsp.buf.format)
+vim.keymap.set("n", "<leader>M", function()
+  local newBuf = vim.api.nvim_create_buf(false, false)
+  vim.api.nvim_set_current_buf(newBuf)
+  vim.fn.jobstart(vim.o.makeprg, { term = true, clear_env = false })
+end)
 
 -- :term auto insert
 vim.api.nvim_create_autocmd({ "TermOpen", "BufEnter" }, {
@@ -147,6 +140,7 @@ vim.keymap.set("n", "<leader>e", vim.cmd.Explore)
 vim.keymap.set("n", "<leader>q", vim.cmd.bdelete)
 vim.keymap.set("n", "<leader>m", "<Cmd>make<CR>")
 vim.keymap.set("n", "<leader>tp", vim.cmd.TypstPreview)
+vim.keymap.set("n", "<C-t>", vim.cmd.tabnew)
 vim.keymap.set("v", "<", "<gv")
 vim.keymap.set("v", ">", ">gv")
 

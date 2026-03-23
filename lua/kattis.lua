@@ -1,5 +1,22 @@
+local function getProblemURL()
+  return string.gmatch(vim.fn.getline(1), "// (.+)")()
+end
+
 local function getProblemName()
-  return string.gmatch(vim.fn.getline(1), "// https://open.kattis.com/problems/(%w+)")()
+  local url = getProblemURL()
+  local slashIndex = string.find(url, "/[^/]*$")
+  return string.sub(url, slashIndex + 1)
+end
+
+local function getDomain()
+  local url = getProblemURL()
+  local nth = 1
+  for index in string.gmatch(url, "()/") do
+    if nth == 3 then
+      return string.sub(url, 1, index - 1)
+    end
+    nth = nth + 1
+  end
 end
 
 local function getCleanFileName()
@@ -42,7 +59,7 @@ local function test(opts)
   vim.system({ "mkdir", "-p", sampName }):wait()
   if not vim.uv.fs_stat(sampName .. "/samples.zip") then
     print("fetching samples...")
-    vim.system({ "curl", "https://open.kattis.com/problems/" .. problemName .. "/file/statement/samples.zip", "-o",
+    vim.system({ "curl", getProblemURL() .. "/file/statement/samples.zip", "-o",
       sampName .. "/samples.zip" }):wait()
     vim.system({ "unzip", sampName .. "/samples.zip", "-d", sampName }):wait()
   end
@@ -82,7 +99,7 @@ end
 
 local function submit()
   local pname = getProblemName()
-  local submitURL = "https://open.kattis.com/problems/" .. pname .. "/submit"
+  local submitURL = getProblemURL() .. "/submit"
   local name = getCleanFileName()
   local payload = vim.fn.json_encode({
     files = {
@@ -108,7 +125,7 @@ local function submit()
     :wait().stdout)
   vim.uv.fs_unlink(chatAmICookiedSixSeven)
   if res.success then
-    vim.ui.open("https://open.kattis.com" .. res.success_url)
+    vim.ui.open(getDomain() .. res.success_url)
   else
     print("unsuccessful =(")
   end
