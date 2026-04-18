@@ -15,10 +15,10 @@ vim.pack.add({
   "https://github.com/tpope/vim-sleuth",
   "https://github.com/tpope/vim-vinegar",
   "https://github.com/romainl/vim-cool",
-  "https://github.com/ggandor/leap.nvim",
+  "https://codeberg.org/andyg/leap.nvim",
 
   -- colors
-  "https://github.com/nvim-treesitter/nvim-treesitter",
+  { src = "https://github.com/nvim-treesitter/nvim-treesitter", version = "main" },
   "https://github.com/ellisonleao/gruvbox.nvim",
 
   -- language specific funcionality
@@ -57,11 +57,6 @@ vim.keymap.set("n", "<leader>rr", function()
 end)
 
 -- syntax highlighting
-require("nvim-treesitter.configs").setup({
-  highlight = {
-    enable = true
-  }
-})
 require("gruvbox").setup({ contrast = "soft" })
 
 -- setup processing
