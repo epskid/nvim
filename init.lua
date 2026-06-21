@@ -18,8 +18,11 @@ vim.pack.add({
   "https://codeberg.org/andyg/leap.nvim",
 
   -- colors
-  { src = "https://github.com/nvim-treesitter/nvim-treesitter", version = "main" },
   "https://github.com/ellisonleao/gruvbox.nvim",
+  "https://github.com/xiyaowong/transparent.nvim",
+
+  -- TODO: remove when https://github.com/neovim/neovim/issues/39006 is closed
+  "https://github.com/romus204/tree-sitter-manager.nvim",
 
   -- language specific funcionality
   "https://github.com/mattn/emmet-vim",
@@ -57,6 +60,7 @@ vim.keymap.set("n", "<leader>rr", function()
 end)
 
 -- syntax highlighting
+require("tree-sitter-manager").setup()
 require("gruvbox").setup({ contrast = "soft" })
 
 -- setup processing
@@ -64,8 +68,6 @@ vim.api.nvim_create_autocmd({ "BufNewFile", "BufRead" }, {
   pattern = "*.pde",
   callback = function()
     vim.bo.filetype = "processing"
-    vim.cmd("TSBufEnable highlight")
-    vim.treesitter.start(0, "java")
   end
 })
 
