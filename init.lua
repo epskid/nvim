@@ -1,3 +1,5 @@
+vim.opt.showmode = false
+vim.opt.shell = "/bin/fish"
 vim.opt.tabstop = 2
 vim.opt.shiftwidth = 2
 vim.opt.expandtab = true
@@ -29,11 +31,14 @@ vim.pack.add({
   "https://github.com/chomosuke/typst-preview.nvim",
   "https://github.com/mason-org/mason.nvim",
   "https://github.com/neovim/nvim-lspconfig",
+
+  -- stop spamming hjkl bucko!!
+  "https://github.com/m4xshen/hardtime.nvim",
 })
 
 -- leap
-vim.keymap.set({'n', 'x', 'o'}, 's', '<Plug>(leap)')
-vim.keymap.set('n',             'S', '<Plug>(leap-from-window)')
+vim.keymap.set({ "n", "x", "o" }, "s", "<Plug>(leap)")
+vim.keymap.set("n", "S", "<Plug>(leap-from-window)")
 
 -- setup telescope
 local function get_telescope()
@@ -74,7 +79,7 @@ vim.api.nvim_create_autocmd({ "BufNewFile", "BufRead" }, {
 -- language servers
 require("typst-preview").setup({
   open_cmd = "firefox %s -P typst-preview --class typst-preview",
-  dependencies_bin = { ['tinymist'] = 'tinymist' }
+  dependencies_bin = { ["tinymist"] = "tinymist" }
 })
 require("mason").setup()
 vim.lsp.enable({
@@ -142,3 +147,10 @@ vim.keymap.set("v", "<", "<gv")
 vim.keymap.set("v", ">", ">gv")
 
 vim.cmd.colorscheme("gruvbox")
+
+require("hardtime").setup({
+  disabled_keys = {
+    ["<Up>"] = { "n", "x" },
+    ["<Down>"] = { "n", "x" },
+  },
+})
